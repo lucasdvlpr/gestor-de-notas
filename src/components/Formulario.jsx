@@ -6,30 +6,34 @@ const Formulario = ({nota, setNota, actualizarNota, crearNota}) => {
     const [titulo, setTitulo] = useState('');
     const [fecha, setFecha] = useState('');
     const [cuerpo, setCuerpo] = useState('');
+    const [prioridad, setPrioridad] = useState('');
 
     const [error, setError] = useState('');
 
-    useEffect(()=>{
-        if( Object.keys(nota).length > 0){
-            setTitulo(nota.titulo)
-            setFecha(nota.fecha)
-            setCuerpo(nota.cuerpo)
-        }
-    }, [nota]);
+    const [fechaActual, setFechaActual] = useState(new Date());
+    
+    useEffect(() => {
+    const intervalId = setInterval(() => {
+        setFechaActual(new Date());
+    }, 1000); // Actualizar cada segundo
+
+    }, []);
+
+    const formatoFecha = fechaActual.toLocaleDateString();
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
-        if([titulo,fecha,cuerpo].includes('')){
+        if([titulo,prioridad,cuerpo].includes('')){
             setError('No dejes campos vacíos');
         }else{
             setError(false);
             const objetoNota = {
                 titulo,
-                fecha,
+                fecha: fechaActual.toLocaleDateString(),
                 cuerpo,
+                prioridad
             }
-
+            // console.log(objetoNota)
             if(nota.id){
                 objetoNota.id = nota.id
                 actualizarNota(objetoNota.id, objetoNota);
@@ -41,6 +45,7 @@ const Formulario = ({nota, setNota, actualizarNota, crearNota}) => {
             setTitulo('');
             setFecha('');
             setCuerpo('');
+            setPrioridad('');
         }
     }
 
@@ -51,22 +56,41 @@ const Formulario = ({nota, setNota, actualizarNota, crearNota}) => {
 
         <form onSubmit={handleSubmit} className=''>
 
-        <div className="mb-5">
+        <div className="mb-3">
             <label htmlFor="title" className='text-white text-md mb-2'>Título</label>
             <input name='titulo' value={titulo} onChange={(e)=> setTitulo(e.target.value)} id="title" type="text" placeholder="Escribe un titulo" className="p-2 border-2 border-indigo-600 w-full mt-2 placeholder-gray-400 rounded-md" 
             />
         </div>
 
-        <div className="mb-5">
-          <label htmlFor="date" className='text-white text-md mb-2'>Fecha</label>
-          <input name='fecha' value={fecha} onChange={(e)=> setFecha(e.target.value)} id="date" type="date" className="p-2 border-2 border-indigo-600 w-full mt-2 placeholder-gray-400 rounded-md"/>
-        </div>
-
-        <div className="mb-5">
+        <div className="mb-3">
             <label htmlFor="note" className='text-white text-md mb-2'>Nota</label>
             <textarea name='nota' value={cuerpo} onChange={(e)=> setCuerpo(e.target.value)} id="note" type="textarea" placeholder="Escribe tu nota aquí..." className="p-2 border-2 border-indigo-600 w-full h-36 mt-2 placeholder-gray-400 rounded-md" 
             />
         </div>
+
+        <div className="mb-3 flex flex-col">
+            <label htmlFor="prioridad" className='text-white text-md'>Prioridad</label>
+            <select
+                id="prioridad"
+                name="prioridad"
+                value={prioridad}
+                placeholder="p-2 border-2 border-indigo-600 w-full mt-2 placeholder-gray-400 rounded-md" 
+                onChange={(e) => setPrioridad(e.target.value)}
+                className='p-2 border-2 border-indigo-600 w-full mt-2 rounded-md'
+                >
+                <option value="" disabled hidden>
+                    Selecciona una prioridad
+                </option>
+                <option value="Alta" className='text-red-500 font-semibold'>Alta</option>
+                <option value="Normal" className='text-green-600 font-semibold'>Normal</option>
+                <option value="Baja" className='text-yellow-500 font-semibold'>Baja</option>
+            </select>
+        </div>
+
+        <p className='mb-2 text-indigo-300 py-3'>Vas a crear esta nota el día
+            <span className='ml-1 font-semibold'>{formatoFecha}</span> 
+        </p>
+
 
         {error && 
             <Error>

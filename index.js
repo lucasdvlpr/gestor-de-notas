@@ -100,10 +100,10 @@ app.get('/api/notas', (req, res) => {
 });
 
 app.post('/api/notas', (req, res) => {
-  const {titulo, fecha, cuerpo} = req.body;
+  const {titulo, fecha, cuerpo, prioridad} = req.body;
   db.run(
-    'INSERT INTO notas (titulo, fecha, cuerpo) VALUES (?, ?, ?)',
-    [titulo, fecha, cuerpo],
+    'INSERT INTO notas (titulo, fecha, cuerpo, prioridad) VALUES (?, ?, ?, ?)',
+    [titulo, fecha, cuerpo, prioridad],
     (err) => {
       if (err) {
         console.error(err);
@@ -118,7 +118,7 @@ app.put('/api/notas/:id', (req, res) => {
   const id = req.params.id;
   const {titulo, fecha, cuerpo} = req.body;
   db.run(
-    'UPDATE notas SET titulo = ?, fecha = ?, cuerpo = ? WHERE id = ?', [titulo, fecha, cuerpo, id], function(error){
+    'UPDATE notas SET titulo = ?, fecha = ?, cuerpo = ?, prioridad = ? WHERE id = ?', [titulo, fecha, cuerpo, prioridad, id], function(error){
     if (error) {
       res.status(500).send(error.message);
     } else {
