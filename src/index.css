@@ -2,6 +2,10 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
+#root{
+  height: 100vh;
+}
+
 ::-webkit-scrollbar {
   width: 8px; 
 }

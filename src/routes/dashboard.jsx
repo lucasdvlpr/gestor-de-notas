@@ -119,13 +119,13 @@ export default function Dashboard(){
     };
 
     return(
-        <div className="container mx-auto">
-            <h2 className='text-center text-white font-bold text-lg mt-6'>
-              ¡Hola,
+        <section className="container mx-auto lg:absolute lg:w-11/12 lg:right-0">
+            <h2 className='text-center text-white font-bold text-lg pt-5'>
+              ¡Hola
               <span className='text-indigo-500'>{` ${localStorage.getItem('user')}`}</span>!
-              </h2>
+            </h2>
 
-            <div className='flex justify-center flex-col mx-5 lg:flex-row lg:gap-10'>
+            <div className='flex flex-col justify-center items-center 2xl:flex-row gap-5 m-5'>
               <Formulario 
                 nota={nota}
                 setNota={setNota}
@@ -147,6 +147,6 @@ export default function Dashboard(){
                     ''
               )}
             </div>
-      </div>
+      </section>
     )
 }

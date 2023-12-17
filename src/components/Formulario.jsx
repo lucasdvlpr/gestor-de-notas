@@ -50,21 +50,21 @@ const Formulario = ({nota, setNota, actualizarNota, crearNota}) => {
     }
 
     return (
-    <div className='lg:w-1/2 mb-5 lg:mb-0'>
-        <h1 className="text-white font-bold text-xl md:text-2xl text-center my-6">Escribí tus notas y{" "}administralas
+    <div className='w-full lg:w-1/2 lg:mb-0 max-h-screen'>
+        <h1 className="text-white font-bold text-xl md:text-2xl text-center p-5 pb-8">Escribí tus notas y{" "}administralas
         </h1>
 
-        <form onSubmit={handleSubmit} className=''>
+        <form className="bg-indigo-800 p-5 rounded-md" onSubmit={handleSubmit}>
 
         <div className="mb-3">
             <label htmlFor="title" className='text-white text-md mb-2'>Título</label>
-            <input name='titulo' value={titulo} onChange={(e)=> setTitulo(e.target.value)} id="title" type="text" placeholder="Escribe un titulo" className="p-2 border-2 border-indigo-600 w-full mt-2 placeholder-gray-400 rounded-md" 
+            <input name='titulo' value={titulo} onChange={(e)=> setTitulo(e.target.value)} id="title" type="text" placeholder="Escribe un titulo" className="p-2 border-2 border-gray-900 w-full mt-2 placeholder-gray-400 rounded-md" 
             />
         </div>
 
         <div className="mb-3">
             <label htmlFor="note" className='text-white text-md mb-2'>Nota</label>
-            <textarea name='nota' value={cuerpo} onChange={(e)=> setCuerpo(e.target.value)} id="note" type="textarea" placeholder="Escribe tu nota aquí..." className="p-2 border-2 border-indigo-600 w-full h-36 mt-2 placeholder-gray-400 rounded-md" 
+            <textarea name='nota' value={cuerpo} onChange={(e)=> setCuerpo(e.target.value)} id="note" type="textarea" placeholder="Escribe tu nota aquí..." className="p-2 border-2 border-gray-900 w-full h-24 mt-2 placeholder-gray-400 rounded-md" 
             />
         </div>
 
@@ -74,9 +74,9 @@ const Formulario = ({nota, setNota, actualizarNota, crearNota}) => {
                 id="prioridad"
                 name="prioridad"
                 value={prioridad}
-                placeholder="p-2 border-2 border-indigo-600 w-full mt-2 placeholder-gray-400 rounded-md" 
+                placeholder="p-2 border-2 border-gray-900 w-full mt-2 placeholder-gray-400 rounded-md" 
                 onChange={(e) => setPrioridad(e.target.value)}
-                className='p-2 border-2 border-indigo-600 w-full mt-2 rounded-md'
+                className='p-2 border-2 border-gray-900 w-full mt-2 rounded-md'
                 >
                 <option value="" disabled hidden>
                     Selecciona una prioridad
@@ -99,7 +99,7 @@ const Formulario = ({nota, setNota, actualizarNota, crearNota}) => {
             </Error>
         }
 
-        <input type="submit" value={nota.id ? 'guardar cambios' : 'crear nota'} className='w-full bg-indigo-800 p-3 text-white uppercase font-bold text-lg rounded-md hover:bg-indigo-500 cursor-pointer ease-in-out duration-300'/>
+        <input type="submit" value={nota.id ? 'guardar cambios' : 'Crear nota'} className='w-full bg-gray-900 p-3 text-white font-bold text-lg rounded-md hover:bg-gray-800 cursor-pointer ease-in-out duration-300'/>
 
         </form>
     </div>
