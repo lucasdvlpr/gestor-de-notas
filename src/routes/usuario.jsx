@@ -12,12 +12,12 @@ export default function Usuario(){
     }
 
     return (
-    <div className='mx-auto container md:w-1/2 lg:w-1/3'>
+    <div className='flex flex-col items-center'>
         <h2 className='text-white font-bold text-xl md:text-2xl text-center my-6'>
             Acá podes modificar tus datos
         </h2> 
 
-        <form className='bg-indigo-800 p-5 rounded-md mx-6'>
+        <form className='bg-indigo-800 p-5 rounded-md mx-6 lg:w-1/2'>
             <div className='mb-5'>
                 <label htmlFor="usuario" className='text-white text-md'>Tu nombre de usuario</label>
                 <input type="text" id='usuario' placeholder={usuarioActivo} className="p-2 border-2 border-gray-800 w-full mt-2 placeholder-indigo-400 rounded-md" />

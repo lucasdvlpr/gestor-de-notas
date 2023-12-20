@@ -1,6 +1,8 @@
 import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 
+import '../styles/nav-styles.css'
+
 export default function Navegacion({estaAutenticado, setEstaAutenticado}){
     const location = useLocation();
 
@@ -19,53 +21,55 @@ export default function Navegacion({estaAutenticado, setEstaAutenticado}){
     }
 
     return(
-        <nav className="bg-indigo-800 p-3 sticky top-0 lg:fixed lg:h-full lg:w-1/12">
-            <ul className="flex justify-center lg:flex-col lg:h-full lg:gap-12">
-                {estaAutenticado ? 
+        <nav className="lg:min-h-screen">
+            <ul className=" lg:flex-col lg:sticky lg:top-5 lg:gap-12">
+                <div className="flex gap-2 lg:flex-col lg:items-center">
+                    {estaAutenticado ? 
+                        (
+                            ''  
+                        ) 
+                    :   
+                        (
+                            <li>
+                                <Link className={location.pathname === '/' ? 'buttonCheck': " buttonNotCheck"} to={'/'}>Inicio</Link>
+                            </li>
+                        )
+                    }
+                                    
+                    {estaAutenticado ? 
                     (
-                        ''  
-                    ) 
-                :   
-                    (
-                        <li>
-                            <Link className={location.pathname === '/' ? 'text-slate-800 bg-indigo-300 px-4 py-1 rounded-md cursor-pointer': "text-white hover:bg-indigo-500 px-4 py-1 rounded-md cursor-pointer"} to={'/'}>Inicio</Link>
-                        </li>
-                    )
-                }
-                                
-                {estaAutenticado ? 
-                (
-                        <li>
-                            <Link className={location.pathname === '/dashboard' ? 'text-slate-800 bg-indigo-300 items-center gap-2 px-4 py-1 rounded-md cursor-pointer': "text-white hover:bg-indigo-500 px-4 py-1 rounded-md cursor-pointer"} to={'/dashboard'}>Dashboard
-                            </Link>
-                        </li>
+                            <li>
+                                <Link className={location.pathname === '/dashboard' ? 'buttonCheck': "buttonNotCheck"} to={'/dashboard'}>Dashboard
+                                </Link>
+                            </li>
+                            
                         
-                    
-                ) 
-                : 
-                (
-                        <li>
-                            <Link className={location.pathname === '/registro' ? 'text-slate-800 bg-indigo-300 px-4 py-1 rounded-md cursor-pointer': "text-white hover:bg-indigo-500 px-4 py-1 rounded-md cursor-pointer"} to={'/registro'}>Registro</Link>
-                        </li>
-                )
-                }
-
-                {estaAutenticado ? 
-                    (<li>
-                        <Link className={location.pathname === '/usuario' ? 'text-slate-800 bg-indigo-300 px-4 py-1 rounded-md cursor-pointer': "text-white hover:bg-indigo-500 px-4 py-1 rounded-md cursor-pointer"} to={'/usuario'}>Usuario</Link>
-                    </li>)
-                    :
-                    ('')
-                }
+                    ) 
+                    : 
+                    (
+                            <li>
+                                <Link className={location.pathname === '/registro' ? 'buttonCheck': "buttonNotCheck"} to={'/registro'}>Registro</Link>
+                            </li>
+                    )
+                    }
+    
+                    {estaAutenticado ? 
+                        (<li>
+                            <Link className={location.pathname === '/usuario' ? 'buttonCheck': "buttonNotCheck"} to={'/usuario'}>Mi cuenta</Link>
+                        </li>)
+                        :
+                        ('')
+                    }
+                </div>
                 
                 <li>
                     {estaAutenticado ? 
                         ( 
-                            <a className="logout bg-red-500 rounded-md px-4 py-1 text-white hover:bg-red-700 cursor-pointer" onClick={() => {logout()}}>Cerrar sesión</a> 
+                            <a className="buttonSalir" onClick={() => {logout()}}>Salir</a> 
                         ) 
                         : 
                         ( 
-                            <Link className={location.pathname === '/login' ? 'text-slate-800 bg-indigo-300 px-4 py-1 rounded-md cursor-pointer': "text-white hover:bg-indigo-500 px-4 py-1 rounded-md cursor-pointer"} to={'/login'}>Iniciar sesión</Link>
+                            <Link className={location.pathname === '/login' ? 'buttonCheck bg-gray-800 text-white': "buttonNotCheck bg-gray-900"} to={'/login'}>Ingresar</Link>
                         )
                     }
                 </li>

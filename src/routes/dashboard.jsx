@@ -3,6 +3,8 @@ import { useState, useEffect} from 'react'
 import Formulario from '../components/Formulario';
 import ListaNotas from '../components/ListaNotas';
 
+import '../styles/dashboard-styles.css'
+
 export default function Dashboard(){
 
     const NOTASSTORAGE = JSON.parse(localStorage.getItem('notas')) ?? true;
@@ -119,19 +121,21 @@ export default function Dashboard(){
     };
 
     return(
-        <section className="container mx-auto lg:absolute lg:w-11/12 lg:right-0">
+        <section>
             <h2 className='text-center text-white font-bold text-lg pt-5'>
               ¡Hola
               <span className='text-indigo-500'>{` ${localStorage.getItem('user')}`}</span>!
             </h2>
 
             <div className='flex flex-col justify-center items-center 2xl:flex-row gap-5 m-5'>
+              
               <Formulario 
                 nota={nota}
                 setNota={setNota}
                 actualizarNota={actualizarNota}
                 crearNota={crearNota}
               />
+
               {notasBD.length > 0 ? (
                      <>
                         <ListaNotas

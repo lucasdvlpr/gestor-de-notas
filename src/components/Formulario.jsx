@@ -50,11 +50,11 @@ const Formulario = ({nota, setNota, actualizarNota, crearNota}) => {
     }
 
     return (
-    <div className='w-full lg:w-1/2 lg:mb-0 max-h-screen'>
+    <div className='flex flex-col'>
         <h1 className="text-white font-bold text-xl md:text-2xl text-center p-5 pb-8">Escribí tus notas y{" "}administralas
         </h1>
 
-        <form className="bg-indigo-800 p-5 rounded-md" onSubmit={handleSubmit}>
+        <form className="bg-indigo-800 p-5 rounded-md " onSubmit={handleSubmit}>
 
         <div className="mb-3">
             <label htmlFor="title" className='text-white text-md mb-2'>Título</label>
