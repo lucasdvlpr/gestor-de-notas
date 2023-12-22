@@ -60,7 +60,7 @@ export default function Login({setEstaAutenticado}){
                     Inicia sesión
             </h1>
 
-            <form className="bg-indigo-800 p-5 rounded-md lg:w-1/2" onSubmit={handleSubmit}>
+            <form className="bg-indigo-800 p-5 rounded-md lg:w-1/3" onSubmit={handleSubmit}>
 
             <div className="mb-5">
                 <label htmlFor="user" className='text-white text-md mb-2'>Usuario</label>

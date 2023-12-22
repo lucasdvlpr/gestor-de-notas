@@ -1,0 +1,1 @@
+select * from USUARIOS where username = "lucasrebelo"

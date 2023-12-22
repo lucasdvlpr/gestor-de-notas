@@ -8,6 +8,9 @@ import { useNavigate, Link } from "react-router-dom";
 export default function Registro({setEstaAutenticado}){
 
     const [username, setUsername] = useState('');
+    const [nombre, setNombre] = useState('');
+    const [apellido, setApellido] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     
@@ -21,16 +24,24 @@ export default function Registro({setEstaAutenticado}){
         setLoading(true);
         setTimeout(() => {
             setLoading(false);
-            if([username,password,confirmPassword].includes('')){
+            if([username,nombre,apellido,email,password,confirmPassword].includes('')){
                 setError('No dejes campos vacíos.')
                 return false; 
+            }
+            else if(username.length < 6){
+                setError('El usuario debe tener mínimo 6 letras.')
             }
             else if(!username.match(/^[a-zA-Z0-9-]+$/)){
                 setError('El usuario no puede tener espacios y debe contener solo letras, números y guiones');
                 return false;
             }
-            else if(username.length < 6){
-                setError('El usuario debe tener mínimo 6 letras.')
+            else if(/\d/.test(nombre) || /\d/.test(apellido)) {
+                setError('El nombre y el apellido no pueden contener números.');
+                return;
+            }
+            else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                alert('Por favor, ingresa un email válido.');
+                return;
             }
             else if(username === password){
                 setError('El usuario y la constraseña no pueden ser iguales.')
@@ -52,6 +63,8 @@ export default function Registro({setEstaAutenticado}){
                 
                 const usuario = {
                     username,
+                    nombreyapellido : nombre + ' ' + apellido,
+                    email,
                     password,
                     token : generarId()
                 }
@@ -63,12 +76,16 @@ export default function Registro({setEstaAutenticado}){
                 })
                 .then(response => response.json())
                 .then(data => {
-                    localStorage.setItem('user', usuario.username)
+                    localStorage.setItem('nombredeusuario', usuario.nombreyapellido);
+                    localStorage.setItem('user', usuario.username);
                     localStorage.setItem('token', usuario.token);
                     localStorage.setItem('auth', true);
                     setEstaAutenticado(true);
-                    navigate('/dashboard', { replace: true })
+                    navigate('/dashboard', {replace: true})
                     setUsername('');
+                    setNombre('');
+                    setApellido('');
+                    setEmail('');
                     setPassword('');
                     setConfirmPassword('');
                     setError('');
@@ -79,10 +96,10 @@ export default function Registro({setEstaAutenticado}){
                 });
             }   
         }, 1250);
-    }
+    };
 
     return(
-        <div className="flex flex-col items-center">
+        <section className="flex flex-col items-center">
             <h1 
             id="title"
             className="text-white font-black text-3xl md:text-2xl text-center my-6"
@@ -90,7 +107,7 @@ export default function Registro({setEstaAutenticado}){
                 Crea tu cuenta
             </h1>
 
-            <form className="bg-indigo-800 p-5 rounded-md lg:w-1/2" onSubmit={handleSubmit}>
+            <form className="bg-indigo-800 p-5 rounded-md lg:w-1/3" onSubmit={handleSubmit}>
 
             <div className="mb-5">
                 <label
@@ -102,9 +119,26 @@ export default function Registro({setEstaAutenticado}){
                     type="text" 
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
-                    placeholder="Escribe un nombre" 
+                    placeholder="Escribe un nombre de usuario" 
                     className="p-2 border-2 border-gray-800 w-full mt-2 placeholder-indigo-400 rounded-md" 
                 />
+            </div>
+
+            <div className="flex gap-2 mb-5">
+                <div>
+                    <label htmlFor="nombre" className="text-white text-md mb-2">Nombre</label>
+                    <input id="nombre" type="text" placeholder="Escribe tu nombre"  className="p-2 border-2 border-gray-800 w-full mt-2 placeholder-indigo-400 rounded-md" onChange={(e) => setNombre(e.target.value)}/>
+                </div>
+                <div>
+                    <label htmlFor="apellido" className="text-white text-md mb-2">Apellido</label>
+                    <input id="apellido" type="text" placeholder="Escribe tu apellido" 
+                    className="p-2 border-2 border-gray-800 w-full mt-2 placeholder-indigo-400 rounded-md" onChange={(e) => setApellido(e.target.value)}/>
+                </div>
+            </div>
+
+            <div className="mb-5">
+                <label htmlFor="email" className="text-white text-md mb-2">Correo electrónico</label>
+                <input id="email" type="text" placeholder="Escribe tu email" className="p-2 border-2 border-gray-800 w-full mt-2 placeholder-indigo-400 rounded-md" onChange={(e) => setEmail(e.target.value)}/>
             </div>
 
             <div className="mb-5">
@@ -160,6 +194,6 @@ export default function Registro({setEstaAutenticado}){
             )}
 
             </form>
-        </div>
+        </section>
     )
 }

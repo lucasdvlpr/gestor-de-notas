@@ -18,11 +18,18 @@ export default function App() {
     console.log("Sesion iniciada.");
   }
 
+  const [modoOscuro, setModoOscuro] = useState(false);
+
   return (
     <Router>
 
       <div className='flex flex-col lg:flex-row'>
-        <Navegacion estaAutenticado={estaAutenticado} setEstaAutenticado={setEstaAutenticado}/>
+        <Navegacion 
+          estaAutenticado={estaAutenticado} 
+          setEstaAutenticado={setEstaAutenticado}
+          modoOscuro={modoOscuro}
+          setModoOscuro={setModoOscuro}
+        />
         
         <div className='flex-1'>
           <Routes>

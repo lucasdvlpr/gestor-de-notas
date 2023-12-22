@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 import '../styles/nav-styles.css'
 
-export default function Navegacion({estaAutenticado, setEstaAutenticado}){
+export default function Navegacion({estaAutenticado, setEstaAutenticado, modoOscuro, setModoOscuro}){
     const location = useLocation();
 
     const logout = () => {
@@ -21,8 +21,8 @@ export default function Navegacion({estaAutenticado, setEstaAutenticado}){
     }
 
     return(
-        <nav className="lg:min-h-screen">
-            <ul className=" lg:flex-col lg:sticky lg:top-5 lg:gap-12">
+        <nav className="sticky backdrop-blur-lg lg:min-h-screen">
+            <ul className="flex lg:flex-col sticky top-0 justify-between items-center lg:gap-12">
                 <div className="flex gap-2 lg:flex-col lg:items-center">
                     {estaAutenticado ? 
                         (
@@ -69,7 +69,7 @@ export default function Navegacion({estaAutenticado, setEstaAutenticado}){
                         ) 
                         : 
                         ( 
-                            <Link className={location.pathname === '/login' ? 'buttonCheck bg-gray-800 text-white': "buttonNotCheck bg-gray-900"} to={'/login'}>Ingresar</Link>
+                            <Link className={location.pathname === '/login' ? 'buttonCheck bg-green-500 text-white': "buttonNotCheck"} to={'/login'}>Ingresar</Link>
                         )
                     }
                 </li>

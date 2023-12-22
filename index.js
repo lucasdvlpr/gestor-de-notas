@@ -10,13 +10,6 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-db.run(`CREATE TABLE IF NOT EXISTS usuarios (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  username TEXT UNIQUE,
-  password TEXT,
-  token TEXT
-)`);
-
 app.use(express.json());
 
 app.post('/api/login', (req,res) =>{
@@ -33,18 +26,28 @@ app.post('/api/login', (req,res) =>{
   });
 });
 
-app.get('/api/registros/:id', (req,res) =>{
-  const id = req.params.id;
-  db.get('SELECT * FROM usuarios WHERE id = ?', [id], (error, row) => {
+const usernamePattern = /^[a-zA-Z0-9_]+$/;
+
+app.get('/api/registros/:username', (req,res) =>{
+  const username = req.params.username;
+
+  if (!usernamePattern.test(username)){
+    return res.status(400).send('Formato de username no válido');
+  }
+
+  db.get('SELECT * FROM usuarios WHERE username = ?', [username], (error, row) => {
     if (error) {
-      res.status(500).send(error.message);
+      console.error('Error al obtener datos del usuario:', error);
+      res.status(500).send('Error interno al procesar la solicitud.');
     } else if (!row) {
-      res.status(404).send(`No hay usuarios con ID ${id}`);
+      res.status(404).send(`No hay usuarios con username ${username}`);
     } else {
-      res.send(row);
+      // console.log('Datos del usuario activo:', row);
+      res.json(row);
     }
   });
 });
+
 
 app.get('/api/registros', (req, res) => {
   db.all('SELECT * FROM usuarios', (error, rows) => {
@@ -58,19 +61,27 @@ app.get('/api/registros', (req, res) => {
 
 app.post('/api/registros', (req,res) => {
   console.log('Cuerpo de la Solicitud:', req.body);
-  const {username, password, token} = req.body;
+  const {username, nombreyapellido, email, password, token} = req.body;
   db.get('SELECT * FROM usuarios WHERE username = ?', [username], (error,row) => {
     if(error){
       res.status(500).send(error.message);
     }else if (row){
       res.status(400).send(`El nombre de usuario '${row.username}' ya está en uso`);
     }else{
-      db.run('INSERT INTO usuarios (username, password, token) VALUES (?,?,?)', [username, password, token], (error) =>{
-        if (error) {
-          console.error(error);
-          return res.status(500).json({ error: 'Error al registrar usuario' });
+      db.get('SELECT * FROM usuarios WHERE email = ?', [email],(error,row)=>{
+        if(error){
+          res.status(500).send(error.message);
+        }else if (row){
+          res.status(400).send(`El correo electrónico '${row.email}' ya está en uso`);
+        }else{
+          db.run('INSERT INTO usuarios (username, nombreyapellido, email, password, token) VALUES (?, ?, ?, ?, ?)', [username, nombreyapellido, email, password, token], (error) =>{
+            if (error) {
+              console.error(error);
+              return res.status(500).json({ error: 'Error al registrar usuario' });
+            }
+            return res.json({ message: `Usuario creado!`});
+          })
         }
-        return res.json({ message: `Usuario creado!`});
       })
     }
   });

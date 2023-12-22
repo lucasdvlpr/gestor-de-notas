@@ -127,7 +127,7 @@ export default function Dashboard(){
               <span className='text-indigo-500'>{` ${localStorage.getItem('user')}`}</span>!
             </h2>
 
-            <div className='flex flex-col justify-center items-center 2xl:flex-row gap-5 m-5'>
+            <div className='flex flex-col justify-center items-center 2xl:flex-row gap-5'>
               
               <Formulario 
                 nota={nota}
